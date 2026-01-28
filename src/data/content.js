@@ -7,7 +7,7 @@ export const content = {
 
   links: {
     github: "https://github.com/aniketh1409",
-    linkedin: "https://www.linkedin.com/in/aniketh-kini/",
+    linkedin: "https://www.linkedin.com/in/aniketh-kini-605566217/",
     email: "anikeths@ualberta.ca",
     resume: "", // add later if you host a PDF
   },

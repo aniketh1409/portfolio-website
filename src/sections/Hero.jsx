@@ -8,12 +8,15 @@ export default function Hero() {
       </p>
 
       <h1 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">
-        {content.headline}
-      </h1>
+        I build <span className="text-[rgb(var(--accent))]">clean, reliable</span>{" "}
+        software — <br />
+        Web & Mobile apps, Full-Stack development, and Data Tools.
+        </h1>
 
-      <p className="mt-4 max-w-2xl text-base leading-relaxed text-zinc-300">
+
+      {/* <p className="mt-4 max-w-2xl text-base leading-relaxed text-zinc-300">
         {content.subheadline}
-      </p>
+      </p> */}
 
       <div className="mt-8 flex flex-wrap gap-3">
         <a
