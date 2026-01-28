@@ -15,7 +15,7 @@ export default function App() {
         <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-cyan-500/10 blur-3xl" />
       </div>
 
-      <div className="relative mx-auto w-full max-w-5xl px-5">
+      <div className="relative mx-auto w-full max-w-5xl px-6 sm:px-8">
         <Navbar />
         <main className="py-10">
           <Hero />
