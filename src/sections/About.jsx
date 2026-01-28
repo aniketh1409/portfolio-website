@@ -8,13 +8,14 @@ export default function About() {
       <div className="mt-4 grid gap-6 sm:grid-cols-5">
         <div className="sm:col-span-3">
           <p className="text-sm leading-relaxed text-zinc-300">
-            I’m a Computer/Software Engineering student who enjoys building products that feel clean and fast —
-            from React frontends to Python automation and tooling. I care about clarity, reliability, and
-            shipping work that’s easy to maintain.
+            I’m a fourth-year Software Engineering student with a strong focus on building reliable, well-structured software systems and understanding how technology works end to end. Through academic projects, internships, and personal work, I’ve gained hands-on experience across backend services, APIs, data pipelines, and application development, with a growing interest in systems that sit at the intersection of software, data, and automation.
           </p>
           <p className="mt-3 text-sm leading-relaxed text-zinc-300">
-            Recently I’ve been working around MCP connectors, automation, and app development.
+            I’ve worked on projects involving Java and Android development, Python-based backend services, SQL databases, and API-driven architectures. In team-based environments, I’ve used Git and GitHub for collaboration, written unit tests (including JUnit), and worked in Agile-style workflows where code quality, clear communication, and ownership mattered. I’ve also explored applied AI and data analysis through projects that combine machine learning, audio processing, and large language models, giving me experience translating complex technical outputs into clear, usable results.
           </p>
+          <p className="mt-3 text-sm leading-relaxed text-zinc-300">
+            Alongside my technical work, I value consistency, curiosity, and continuous improvement. Outside academics, I spend time leetcoding for fun, playing guitar and composing music, staying active through soccer and working out, and cooking-habits that help me stay balanced and disciplined. I approach both my work and interests with the same mindset: understand deeply, build thoughtfully, and keep getting better.
+        </p>
         </div>
 
         <div className="sm:col-span-2 rounded-2xl border border-white/10 bg-white/5 p-5">
