@@ -9,7 +9,7 @@ export const content = {
   github: "https://github.com/aniketh1409",
   linkedin: "https://www.linkedin.com/in/aniketh-kini/",
   email: "anikeths@ualberta.ca",
-  resume: "/Aniketh_Resume.pdf", // or a Google Drive/hosted link
+  resume: `${import.meta.env.BASE_URL}Aniketh_Resume_Jan2026.pdf`,
 },
 
 
