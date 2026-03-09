@@ -20,12 +20,14 @@ export default function App() {
   }, []);
 
   return (
-    <div className="noise min-h-screen text-zinc-50 bg-[#09090b]">
+    <div className="noise min-h-screen text-zinc-50 bg-[#09090b] relative overflow-x-hidden">
+      <div className="moving-bg pointer-events-none fixed inset-0 z-0" />
+
       {/* Animated aurora background */}
-      <Aurora />
+      <Aurora className="z-[1]" />
 
       {/* Particle field */}
-      <div className="pointer-events-none fixed inset-0 z-0">
+      <div className="pointer-events-none fixed inset-0 z-[2]">
         <Particles
           count={isMobile ? 25 : 50}
           color="rgba(99, 102, 241, 0.4)"

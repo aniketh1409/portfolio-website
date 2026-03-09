@@ -107,3 +107,52 @@ body {
   background-repeat: repeat;
   z-index: 9999;
 }
+
+@keyframes bg-drift {
+  0% {
+    transform: translate3d(-8%, -6%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(8%, 4%, 0) scale(1.08);
+  }
+  100% {
+    transform: translate3d(-8%, -6%, 0) scale(1);
+  }
+}
+
+@keyframes bg-drift-reverse {
+  0% {
+    transform: translate3d(10%, -4%, 0) scale(1.02);
+  }
+  50% {
+    transform: translate3d(-6%, 7%, 0) scale(1.1);
+  }
+  100% {
+    transform: translate3d(10%, -4%, 0) scale(1.02);
+  }
+}
+
+.moving-bg {
+  overflow: hidden;
+}
+
+.moving-bg::before,
+.moving-bg::after {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  filter: blur(90px);
+  will-change: transform;
+}
+
+.moving-bg::before {
+  background: radial-gradient(circle at 30% 35%, rgba(99, 102, 241, 0.2), transparent 55%),
+    radial-gradient(circle at 70% 30%, rgba(6, 182, 212, 0.14), transparent 50%);
+  animation: bg-drift 18s ease-in-out infinite;
+}
+
+.moving-bg::after {
+  background: radial-gradient(circle at 65% 65%, rgba(168, 85, 247, 0.14), transparent 52%),
+    radial-gradient(circle at 35% 75%, rgba(59, 130, 246, 0.12), transparent 48%);
+  animation: bg-drift-reverse 24s ease-in-out infinite;
+}
