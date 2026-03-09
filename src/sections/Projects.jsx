@@ -1,78 +1,123 @@
+import { motion as Motion } from "framer-motion";
 import { content } from "../data/content";
 import ProjectCard from "../components/ProjectCard";
+import SpotlightCard from "../components/effects/SpotlightCard";
+import TiltCard from "../components/effects/TiltCard";
+import ScrollReveal from "../components/effects/ScrollReveal";
 
 export default function Projects() {
   const featured = content.projects.filter((p) => p.featured);
   const rest = content.projects.filter((p) => !p.featured);
 
   return (
-    <section id="projects" className="py-12">
-      <div className="flex items-end justify-between gap-6">
-        <div>
-          <h2 className="text-xl font-semibold tracking-tight">Projects</h2>
-          <p className="mt-2 text-sm text-zinc-400">A few things I’ve built recently.</p>
+    <section id="projects" className="py-20">
+      <ScrollReveal>
+        <div className="flex items-end justify-between gap-6">
+          <div>
+            <p className="text-xs uppercase tracking-widest text-indigo-400 font-mono mb-2">
+              // projects
+            </p>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
+              What I've built
+            </h2>
+            <p className="mt-2 text-sm text-zinc-500 max-w-lg">
+              A selection of projects spanning AI systems, distributed backends,
+              web apps, mobile development, and game dev.
+            </p>
+          </div>
         </div>
-      </div>
+      </ScrollReveal>
 
       {/* Featured row */}
-      {featured.length > 0 ? (
-        <div className="mt-6 grid gap-4 lg:grid-cols-2">
-          {featured.map((p) => (
-            <div
+      {featured.length > 0 && (
+        <div className="mt-10 grid gap-5 lg:grid-cols-3">
+          {featured.map((p, i) => (
+            <Motion.div
               key={p.title}
-              className="rounded-2xl border border-white/10 bg-white/5 p-6 sm:p-7 overflow-hidden relative"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
             >
-              <div className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-[rgb(var(--accent))]/15 blur-3xl" />
-              <p className="text-xs uppercase tracking-wider text-zinc-400">Featured</p>
-              <h3 className="mt-2 text-lg font-semibold">{p.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-zinc-300">{p.desc}</p>
+              <TiltCard tiltAmount={4} className="group h-full">
+                <SpotlightCard
+                  className="h-full rounded-2xl overflow-hidden relative glass transition-all duration-300 hover:border-indigo-500/20"
+                  spotlightColor="rgba(99, 102, 241, 0.1)"
+                >
+                  {/* Accent glow */}
+                  <div className="pointer-events-none absolute -top-20 -right-20 h-60 w-60 rounded-full bg-indigo-500/10 blur-3xl group-hover:bg-indigo-500/15 transition-all duration-700" />
 
-              <div className="mt-4 flex flex-wrap gap-2">
-                {p.tags?.map((t) => (
-                  <span
-                    key={t}
-                    className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-zinc-200"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
+                  <div className="relative p-6 sm:p-7 h-full flex flex-col">
+                    <div className="flex items-center gap-2">
+                      <span className="inline-block h-1.5 w-6 rounded-full bg-indigo-500" />
+                      <p className="text-[11px] uppercase tracking-widest text-indigo-400 font-mono">
+                        Featured
+                      </p>
+                    </div>
 
-              <div className="mt-5 flex gap-3">
-                {p.href ? (
-                  <a
-                    className="rounded-xl bg-white px-4 py-2 text-sm font-medium text-zinc-950 hover:bg-zinc-200 transition"
-                    href={p.href}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Live
-                  </a>
-                ) : null}
-                {p.github ? (
-                  <a
-                    className="rounded-xl border border-white/15 px-4 py-2 text-sm font-medium text-white hover:border-white/30 hover:bg-white/5 transition"
-                    href={p.github}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    GitHub
-                  </a>
-                ) : null}
-              </div>
-            </div>
+                    <h3 className="mt-3 text-lg font-bold text-zinc-100 group-hover:text-white transition-colors">
+                      {p.title}
+                    </h3>
+
+                    <p className="mt-2 text-sm leading-relaxed text-zinc-400 flex-1">
+                      {p.desc}
+                    </p>
+
+                    <div className="mt-4 flex flex-wrap gap-1.5">
+                      {p.tags?.map((t) => (
+                        <span
+                          key={t}
+                          className="rounded-md border border-indigo-500/20 bg-indigo-500/5 px-2 py-0.5 text-[11px] font-mono text-indigo-300/70"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="mt-5 flex gap-3">
+                      {p.href && (
+                        <a
+                          className="group/btn inline-flex items-center gap-1.5 rounded-lg bg-white px-4 py-2 text-sm font-medium text-zinc-950
+                                   hover:bg-zinc-200 transition-all duration-200"
+                          href={p.href}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Live
+                          <svg className="h-3.5 w-3.5 transition-transform group-hover/btn:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </a>
+                      )}
+                      {p.github && (
+                        <a
+                          className="group/btn inline-flex items-center gap-1.5 rounded-lg border border-white/[0.1] bg-white/[0.03] px-4 py-2 text-sm font-medium text-zinc-300
+                                   hover:bg-white/[0.08] hover:border-white/[0.2] transition-all duration-200"
+                          href={p.github}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Source
+                          <svg className="h-3.5 w-3.5 transition-transform group-hover/btn:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                          </svg>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </SpotlightCard>
+              </TiltCard>
+            </Motion.div>
           ))}
         </div>
-      ) : null}
+      )}
 
       {/* Rest grid */}
-      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {rest.map((p) => (
-          <ProjectCard key={p.title} {...p} />
+      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {rest.map((p, i) => (
+          <ProjectCard key={p.title} {...p} index={i} />
         ))}
       </div>
     </section>
   );
 }
-
-
