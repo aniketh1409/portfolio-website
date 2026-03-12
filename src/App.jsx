@@ -11,34 +11,61 @@ import SpotlightCursor from "./components/effects/SpotlightCursor";
 
 export default function App() {
   const [isMobile, setIsMobile] = useState(false);
+  const [isLowPerfDevice, setIsLowPerfDevice] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const check = () => {
+      const lowCpu = navigator.hardwareConcurrency
+        ? navigator.hardwareConcurrency <= 4
+        : false;
+      const lowMemory = navigator.deviceMemory
+        ? navigator.deviceMemory <= 4
+        : false;
+
+      setIsMobile(window.innerWidth < 768);
+      setReducedMotion(mediaQuery.matches);
+      setIsLowPerfDevice(lowCpu || lowMemory);
+    };
+
     check();
     window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
+    mediaQuery.addEventListener("change", check);
+
+    return () => {
+      window.removeEventListener("resize", check);
+      mediaQuery.removeEventListener("change", check);
+    };
   }, []);
+
+  const enableHeavyEffects = !isLowPerfDevice && !isMobile && !reducedMotion;
+  const showParticles = !reducedMotion;
 
   return (
     <div className="noise min-h-screen text-zinc-50 bg-[#09090b] relative overflow-x-hidden">
       <div className="moving-bg pointer-events-none fixed inset-0 z-0" />
 
       {/* Animated aurora background */}
-      <Aurora className="z-[1]" />
+      {enableHeavyEffects && <Aurora className="z-[1]" />}
 
       {/* Particle field */}
-      <div className="pointer-events-none fixed inset-0 z-[2]">
-        <Particles
-          count={isMobile ? 25 : 50}
-          color="rgba(99, 102, 241, 0.4)"
-          speed={0.2}
-          connectDistance={100}
-          size={1.5}
-        />
-      </div>
+      {showParticles && (
+        <div className="pointer-events-none fixed inset-0 z-[2]">
+          <Particles
+            count={isMobile ? 12 : isLowPerfDevice ? 18 : 28}
+            color="rgba(99, 102, 241, 0.35)"
+            speed={isLowPerfDevice ? 0.12 : 0.18}
+            connectDistance={isLowPerfDevice ? 0 : 70}
+            size={isLowPerfDevice ? 1.1 : 1.3}
+            maxFps={isLowPerfDevice ? 24 : 30}
+          />
+        </div>
+      )}
 
       {/* Spotlight cursor (desktop only) */}
-      {!isMobile && <SpotlightCursor />}
+      {enableHeavyEffects && <SpotlightCursor />}
 
       {/* Content */}
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 sm:px-8">

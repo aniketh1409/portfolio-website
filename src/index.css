@@ -140,8 +140,8 @@ body {
 .moving-bg::after {
   content: "";
   position: absolute;
-  inset: -30%;
-  filter: blur(90px);
+  inset: -20%;
+  filter: blur(72px);
   will-change: transform;
 }
 
@@ -155,4 +155,15 @@ body {
   background: radial-gradient(circle at 65% 65%, rgba(168, 85, 247, 0.14), transparent 52%),
     radial-gradient(circle at 35% 75%, rgba(59, 130, 246, 0.12), transparent 48%);
   animation: bg-drift-reverse 24s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .moving-bg::before,
+  .moving-bg::after {
+    animation: none;
+  }
 }

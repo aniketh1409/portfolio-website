@@ -7,6 +7,7 @@ export default function Particles({
   speed = 0.3,
   connectDistance = 120,
   size = 2,
+  maxFps = 30,
 }) {
   const canvasRef = useRef(null);
   const animRef = useRef(null);
@@ -26,25 +27,37 @@ export default function Particles({
       r: Math.random() * size + 0.5,
     }));
 
-    const draw = () => {
+    const connectDistanceSq = connectDistance * connectDistance;
+    const frameInterval = 1000 / maxFps;
+    let lastTime = 0;
+
+    const draw = (now = 0) => {
+      animRef.current = requestAnimationFrame(draw);
+
+      if (now - lastTime < frameInterval) return;
+      lastTime = now;
+
       ctx.clearRect(0, 0, width, height);
 
       // Draw connections
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < connectDistance) {
-            ctx.beginPath();
-            ctx.strokeStyle = color.replace(
-              /[\d.]+\)$/,
-              `${(1 - dist / connectDistance) * 0.15})`
-            );
-            ctx.lineWidth = 0.5;
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
+      if (connectDistance > 0) {
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const distSq = dx * dx + dy * dy;
+
+            if (distSq < connectDistanceSq) {
+              const dist = Math.sqrt(distSq);
+              ctx.beginPath();
+              ctx.strokeStyle = color;
+              ctx.globalAlpha = (1 - dist / connectDistance) * 0.18;
+              ctx.lineWidth = 0.5;
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+              ctx.globalAlpha = 1;
+            }
           }
         }
       }
@@ -62,7 +75,6 @@ export default function Particles({
         ctx.fill();
       }
 
-      animRef.current = requestAnimationFrame(draw);
     };
 
     draw();
@@ -77,7 +89,7 @@ export default function Particles({
       cancelAnimationFrame(animRef.current);
       window.removeEventListener("resize", handleResize);
     };
-  }, [count, color, speed, connectDistance, size]);
+  }, [count, color, speed, connectDistance, size, maxFps]);
 
   return (
     <canvas
